@@ -57,13 +57,16 @@ jobs:
           Write-Host "Running on Windows"
           pnpm run build:win
 
+      - name: Display out directory
+        run: ls -alhR out
+
       - name: 📤 Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: EverkmNote-${{ matrix.os }}
           path: |
             out/EverkmNote*
-            out/(latest|alpha|beta|rc)-(win|mac|linux).yml
+            out/{latest,alpha,beta,rc}-{win,mac,linux}.yml
 
   release:
     needs: build

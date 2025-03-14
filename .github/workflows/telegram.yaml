@@ -7,7 +7,7 @@ name: Telegram Notification
 on:
   workflow_run:
     workflows: 
-      - "Build Electron App"
+      - Build Electron App
     types:
       - completed
 
@@ -23,10 +23,12 @@ jobs:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           disable_web_page_preview: true
+          format: markdown
           message: |
             ---
+            ✅ **${{github.event.workflow_run.name}}**
+            Result: Success
             Action: https://github.com/${{ github.repository }}/actions 
-            Result: ✅ success
             ---
 
   on-failure:
@@ -39,9 +41,10 @@ jobs:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           disable_web_page_preview: true
+          format: markdown
           message: |
             ---
-            Workflow: ${{github.event.workflow_run.name}}
-            Result: ❌ failure
+            ❌ **${{github.event.workflow_run.name}}**
+            Result: Failure
             Action: https://github.com/${{ github.repository }}/actions 
             --- 
