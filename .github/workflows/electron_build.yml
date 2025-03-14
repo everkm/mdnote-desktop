@@ -36,18 +36,23 @@ jobs:
       - name: 🛠️ Install dependencies
         run: pnpm install
 
-      - name: 📦 Package Electron app
+      - name: Package Electron app for Linux
+        if: matrix.os == 'ubuntu-latest'
         run: |
-          if [[ "$(uname -s)" == "Linux" ]]; then
-            echo "Running on Linux, packaging for Linux"
-            pnpm run build:linux
-          elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            echo "Running on Windows"
-            pnpm run build:win
-          elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            echo "Running on macOS"
-            pnpm run build:mac
-          fi
+          echo "Running on Linux, packaging for Linux"
+          pnpm run build:linux
+
+      - name: Package Electron app for macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          echo "Running on macOS"
+          pnpm run build:mac
+
+      - name: Package Electron app for Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          Write-Host "Running on Windows"
+          pnpm run build:win
 
       - name: 📤 Upload artifacts
         uses: actions/upload-artifact@v4
