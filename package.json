@@ -9,8 +9,8 @@
     "prebuil": "exit 1 && copyfiles -u 3 \"../../dist/**/*\" dist/",
     "xxxxpostinstall": "electron-builder install-app-deps",
     "build-icon": "electron-icon-builder --input=./resources/app_icon.png --output=buildResources/ --flatten",
-    "build:win": "cross-env DEBUG=electron-builder electron-builder --win --x64 --publish=never",
-    "build:mac": "cross-env DEBUG=electron-builder electron-builder --mac --x64 --publish=never",
+    "build:win": "cross-env DEBUG=electron-builder electron-builder --win --x64",
+    "build:mac": "cross-env DEBUG=electron-builder electron-builder --mac --x64",
     "lint": "eslint -c .eslintrc --ext .ts ./src"
   },
   "main": "dist/main.js",
@@ -34,8 +34,17 @@
         "filter": "**/*"
       }
     ],
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://github.com/everkm/mdnote-desktop/releases/download/v${version}"
+      }
+    ],
     "mac": {
-      "target": "dmg"
+      "target": [
+        "dmg",
+        "zip"
+      ]
     }
   },
   "dependencies": {

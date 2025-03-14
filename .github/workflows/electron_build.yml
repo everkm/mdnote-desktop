@@ -3,7 +3,7 @@ name: Build Electron App
 on:
   push:
     tags:
-      - 'ekm-note-desktop@v*'  # 只有打 tag 时触发，如 v1.0.0
+      - 'v*'  # 只有打 tag 时触发，如 v1.0.0
 
 jobs:
   build:
@@ -61,7 +61,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: EverkmNote-${{ matrix.os }}
-          path: out/EverkmNote*
+          path: |
+            out/EverkmNote*
+            out/(latest|alpha|beta|rc)-(win|mac|linux).yml
 
   release:
     needs: build
