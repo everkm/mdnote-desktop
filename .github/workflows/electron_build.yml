@@ -66,6 +66,8 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: 🛠️ Checkout repository
         uses: actions/checkout@v4
@@ -75,6 +77,9 @@ jobs:
         with:
           path: out/
           merge-multiple: true
+
+      - name: Display structure of downloaded files
+        run: ls -alhR out
 
       - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v2
