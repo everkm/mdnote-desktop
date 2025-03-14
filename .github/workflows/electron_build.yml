@@ -1,0 +1,75 @@
+name: Build Electron App
+
+on:
+  push:
+    tags:
+      - 'ekm-note-desktop@v*'  # 只有打 tag 时触发，如 v1.0.0
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: 🛠️ Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: robinraju/release-downloader@v1
+        with:
+          tag: "${{ github.ref_name }}"
+          fileName: 'electron_bin_*.tar.gz'
+          out-file-path: 'resources/bin'
+          extract: true
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: 🛠️ Install dependencies
+        run: pnpm install
+
+      - name: 📦 Package Electron app
+        run: |
+          if [[ "$(uname -s)" == "Linux" ]]; then
+            echo "Running on Linux, packaging for Linux"
+            pnpm run build:linux
+          elif [[ "$RUNNER_OS" == "Windows" ]]; then
+            echo "Running on Windows"
+            pnpm run build:win
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            echo "Running on macOS"
+            pnpm run build:mac
+          fi
+
+      - name: 📤 Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: EverkmNote*
+          path: out/
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛠️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: out/
+
+      - name: 🚀 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: out/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

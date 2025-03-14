@@ -1,0 +1,53 @@
+{
+  "name": "everkm_note",
+  "version": "1.0.0",
+  "description": "毓知笔记",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env-file -p $(node build.config/env.js note-main dev ) webpack && cross-env-file -p $(node build.config/env.js note-preload dev ) webpack",
+    "build": "cross-env-file -p $(node build.config/env.js note-main build ) webpack && cross-env-file -p $(node build.config/env.js note-preload build ) webpack",
+    "prebuil": "exit 1 && copyfiles -u 3 \"../../dist/**/*\" dist/",
+    "xxxxpostinstall": "electron-builder install-app-deps",
+    "build-icon": "electron-icon-builder --input=./resources/app_icon.png --output=buildResources/ --flatten",
+    "build:win": "cross-env DEBUG=electron-builder electron-builder --win --publish=never",
+    "build:mac": "cross-env DEBUG=electron-builder electron-builder --mac --publish=never",
+    "lint": "eslint -c .eslintrc --ext .ts ./src"
+  },
+  "main": "dist/main.js",
+  "repository": "",
+  "keywords": [],
+  "author": "everkm",
+  "license": "",
+  "build": {
+    "appId": "com.everkm.note",
+    "productName": "EverkmNote",
+    "artifactName": "EverkmNote-Desktop-${os}-${arch}-${version}.${ext}",
+    "directories": {
+      "buildResources": "buildResources",
+      "app": "./dist",
+      "output": "./out"
+    },
+    "extraResources": [
+      {
+        "from": "resources/bin/${os}/${arch}/",
+        "to": "bin",
+        "filter": "**/*"
+      }
+    ],
+    "mac": {
+      "target": "dmg"
+    }
+  },
+  "dependencies": {
+    "electron-log": "^5.3.1",
+    "i18next": "^24.2.2",
+    "p-defer": "^4.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "dmg-license": "^1.0.11",
+    "electron": "^34.3.0",
+    "electron-builder": "25.1.8",
+    "electron-icon-builder": "^2.0.1"
+  }
+}
