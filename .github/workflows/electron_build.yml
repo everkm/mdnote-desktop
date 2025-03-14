@@ -52,8 +52,8 @@ jobs:
       - name: 📤 Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: EverkmNote*
-          path: out/
+        #   name: EverkmNote*
+          path: out/EverkmNote*
 
   release:
     needs: build
