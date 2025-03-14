@@ -22,10 +22,11 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          disable_web_page_preview: true
           message: |
             ---
             Action: https://github.com/${{ github.repository }}/actions 
-            Result: success
+            Result: ✅ success
             ---
 
   on-failure:
@@ -37,8 +38,10 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          disable_web_page_preview: true
           message: |
             ---
+            Workflow: ${github.event.workflow_run.workflow.name}
+            Result: ❌ failure
             Action: https://github.com/${{ github.repository }}/actions 
-            Result: failure
             --- 
