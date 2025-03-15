@@ -3,7 +3,7 @@ name: Build Electron App
 on:
   push:
     tags:
-      - 'v*'  # 只有打 tag 时触发，如 v1.0.0
+      - "v*" # 只有打 tag 时触发，如 v1.0.0
 
 jobs:
   build:
@@ -19,13 +19,13 @@ jobs:
       - uses: robinraju/release-downloader@v1
         with:
           tag: "${{ github.ref_name }}"
-          fileName: 'electron_bin_*.tar.gz'
-          out-file-path: 'resources/bin'
+          fileName: "electron_bin_*.tar.gz"
+          out-file-path: "resources/bin"
           extract: true
 
       - name: Display structure of downloaded files
         run: ls -R resources/bin
-        
+
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -96,3 +96,15 @@ jobs:
           files: out/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload update files to Qiniu
+        uses: saltbo/uptoc@v1.4.3
+        env:
+          UPTOC_UPLOADER_AK: ${{ secrets.QINIU_ACCESS_KEY }}
+          UPTOC_UPLOADER_SK: ${{ secrets.QINIU_SECRET_KEY }}
+        with:
+          driver: qiniu
+          region: cn-south-1 # 七牛云存储区域，根据实际情况调整
+          bucket: dayu-assets
+          dist: out
+          saveroot: everkm-note/desktop # 更新文件放在专门的目录

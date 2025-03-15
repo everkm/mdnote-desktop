@@ -36,8 +36,15 @@
     ],
     "publish": [
       {
+        "provider": "github",
+        "owner": "everkm",
+        "repo": "mdnote-desktop",
+        "private": false,
+        "releaseType": "release"
+      },
+      {
         "provider": "generic",
-        "url": "https://github.com/everkm/mdnote-desktop/releases/download/v${version}"
+        "url": "https://assetts.daobox.cc/everkm-note/desktop"
       }
     ],
     "mac": {
