@@ -113,11 +113,11 @@ jobs:
                 --src-dir=out/ \
                 --key-prefix=everkm-note/desktop/ \
                 --bucket=dayu-assets \
-                --thread-count 5 \
+                --thread-count 10 \
                 --overwrite \
                 --check-hash  \
                 --rescan-local=true \
                 --skip-fixed-strings=.DS_Store
-            for f in $(ls out/*) ; do echo https://assets.daobox.cc/everkm-note/desktop/$f >> cdn-refresh.txt; done
+            for f in $(cd out && ls *) ; do echo https://assets.daobox.cc/everkm-note/desktop/$f >> cdn-refresh.txt; done
             cat cdn-refresh.txt
             qshell cdnrefresh -i cdn-refresh.txt
