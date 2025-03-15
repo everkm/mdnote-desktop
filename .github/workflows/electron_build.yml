@@ -43,6 +43,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
         run: |
           echo "Running on Linux, packaging for Linux"
           pnpm run build:linux
@@ -52,6 +53,7 @@ jobs:
         if: matrix.os == 'macos-latest'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
         run: |
           echo "Running on macOS"
           pnpm run build:mac
@@ -61,6 +63,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
         run: |
           Write-Host "Running on Windows"
           pnpm run build:win
