@@ -40,7 +40,9 @@
         "owner": "everkm",
         "repo": "mdnote-desktop",
         "private": false,
-        "releaseType": "release"
+        "releaseType": "release",
+        "timeout": 60000,
+        "publishAutoUpdate": false
       },
       {
         "provider": "generic",
