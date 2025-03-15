@@ -94,8 +94,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: out/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload update files to Qiniu
         uses: saltbo/uptoc@v1.4.3
