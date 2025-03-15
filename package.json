@@ -34,22 +34,7 @@
         "filter": "**/*"
       }
     ],
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "everkm",
-        "repo": "mdnote-desktop",
-        "private": false,
-        "releaseType": "release",
-        "publishAutoUpdate": false,
-        "timeout": 60000
-      },
-      {
-        "provider": "generic",
-        "url": "https://assetts.daobox.cc/everkm-note/desktop",
-        "publishAutoUpdate": false
-      }
-    ],
+    "publish": null,
     "mac": {
       "target": [
         "dmg",
