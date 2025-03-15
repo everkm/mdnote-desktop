@@ -18,7 +18,7 @@ jobs:
 
       - uses: robinraju/release-downloader@v1
         with:
-          tag: "${{ github.ref_name }}"
+          tag: "artifact@${{ github.ref_name }}"
           fileName: "electron_bin_*.tar.gz"
           out-file-path: "resources/bin"
           extract: true
@@ -101,23 +101,23 @@ jobs:
         with:
           files: out/*
 
-      - name: Setup qshell
-        uses: foxundermoon/setup-qshell@v5
-        with:
-          version: "2.16.0"
+    #   - name: Setup qshell
+    #     uses: foxundermoon/setup-qshell@v5
+    #     with:
+    #       version: "2.16.0"
 
-      - name: Sync to qiniu
-        run: |
-            qshell account ${{ secrets.QINIU_ACCESS_KEY }} ${{ secrets.QINIU_SECRET_KEY }} daobox -w
-            qshell qupload2 \
-                --src-dir=out/ \
-                --key-prefix=everkm-note/desktop/ \
-                --bucket=dayu-assets \
-                --thread-count 10 \
-                --overwrite \
-                --check-hash  \
-                --rescan-local=true \
-                --skip-fixed-strings=.DS_Store
-            for f in $(cd out && ls *) ; do echo https://assets.daobox.cc/everkm-note/desktop/$f >> cdn-refresh.txt; done
-            cat cdn-refresh.txt
-            qshell cdnrefresh -i cdn-refresh.txt
+    #   - name: Sync to qiniu
+    #     run: |
+    #         qshell account ${{ secrets.QINIU_ACCESS_KEY }} ${{ secrets.QINIU_SECRET_KEY }} daobox -w
+    #         qshell qupload2 \
+    #             --src-dir=out/ \
+    #             --key-prefix=everkm-note/desktop/ \
+    #             --bucket=dayu-assets \
+    #             --thread-count 10 \
+    #             --overwrite \
+    #             --check-hash  \
+    #             --rescan-local=true \
+    #             --skip-fixed-strings=.DS_Store
+    #         for f in $(cd out && ls *) ; do echo https://assets.daobox.cc/everkm-note/desktop/$f >> cdn-refresh.txt; done
+    #         cat cdn-refresh.txt
+    #         qshell cdnrefresh -i cdn-refresh.txt
