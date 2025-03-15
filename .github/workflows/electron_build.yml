@@ -101,14 +101,23 @@ jobs:
         with:
           files: out/*
 
-      - name: Upload update files to Qiniu
-        uses: saltbo/uptoc@v1.4.3
-        env:
-          UPTOC_UPLOADER_AK: ${{ secrets.QINIU_ACCESS_KEY }}
-          UPTOC_UPLOADER_SK: ${{ secrets.QINIU_SECRET_KEY }}
+      - name: Setup qshell
+        uses: foxundermoon/setup-qshell@v5
         with:
-          driver: qiniu
-          region: cn-south-1 # 七牛云存储区域，根据实际情况调整
-          bucket: dayu-assets
-          dist: out
-          saveroot: everkm-note/desktop # 更新文件放在专门的目录
+          version: "2.16.0"
+
+      - name: Sync to qiniu
+        run: |
+            /app/qshell account ${{ secrets.QINIU_ACCESS_KEY }} ${{ secrets.QINIU_SECRET_KEY }} daobox -w
+            /app/qshell qupload2 \
+                --src-dir=out/ \
+                --key-prefix=everkm-note/desktop/ \
+                --bucket=dayu-assets \
+                --thread-count 5 \
+                --overwrite \
+                --check-hash  \
+                --rescan-local=true \
+                --skip-fixed-strings=.DS_Store
+            for f in $(ls out/*) ; do echo https://assets.daobox.cc/everkm-note/desktop/$f >> cdn-refresh.txt; done
+            cat cdn-refresh.txt
+            /app/qshell cdnrefresh -i cdn-refresh.txt
