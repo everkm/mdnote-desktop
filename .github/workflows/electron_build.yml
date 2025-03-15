@@ -108,8 +108,8 @@ jobs:
 
       - name: Sync to qiniu
         run: |
-            /app/qshell account ${{ secrets.QINIU_ACCESS_KEY }} ${{ secrets.QINIU_SECRET_KEY }} daobox -w
-            /app/qshell qupload2 \
+            qshell account ${{ secrets.QINIU_ACCESS_KEY }} ${{ secrets.QINIU_SECRET_KEY }} daobox -w
+            qshell qupload2 \
                 --src-dir=out/ \
                 --key-prefix=everkm-note/desktop/ \
                 --bucket=dayu-assets \
@@ -120,4 +120,4 @@ jobs:
                 --skip-fixed-strings=.DS_Store
             for f in $(ls out/*) ; do echo https://assets.daobox.cc/everkm-note/desktop/$f >> cdn-refresh.txt; done
             cat cdn-refresh.txt
-            /app/qshell cdnrefresh -i cdn-refresh.txt
+            qshell cdnrefresh -i cdn-refresh.txt
