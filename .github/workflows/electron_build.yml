@@ -39,6 +39,18 @@ jobs:
       - name: 🛠️ Install dependencies
         run: pnpm install
 
+      - name: Import certificate
+        env:
+          CERTIFICATE_P12: ${{ secrets.MAC_CERTIFICATE_P12 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.MAC_CERTIFICATE_P12_PWD }}
+        run: |
+          echo $CERTIFICATE_P12 | base64 --decode > certificate.p12
+          security create-keychain -p mypassword build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p mypassword build.keychain
+          security import certificate.p12 -k build.keychain -P $CERTIFICATE_PASSWORD -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k mypassword build.keychain
+
       - name: Package Electron app for Linux
         if: matrix.os == 'ubuntu-latest'
         env:
@@ -54,6 +66,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ github.ref_name }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
           echo "Running on macOS"
           pnpm run build:mac

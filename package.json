@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env-file -p $(node build.config/env.js note-main dev ) webpack && cross-env-file -p $(node build.config/env.js note-preload dev ) webpack",
     "build": "cross-env-file -p $(node build.config/env.js note-main build ) webpack && cross-env-file -p $(node build.config/env.js note-preload build ) webpack",
-    "set-env": "node set_env.js",
+    "set-env": "node scripts/set_env.js",
     "xxxxpostinstall": "electron-builder install-app-deps",
     "build-icon": "electron-icon-builder --input=./resources/app_icon.png --output=buildResources/ --flatten",
     "build-win": "cross-env-file -p dist/.env cross-env DEBUG=electron-builder electron-builder --win --x64 --arm64",
@@ -23,7 +23,7 @@
   "build": {
     "appId": "com.everkm.note",
     "productName": "EverkmNote",
-    "artifactName": "EverkmNote-Desktop-${version}-${os}-${arch}.${ext}",
+    "artifactName": "EverkmNote-v${version}-${os}-${arch}.${ext}",
     "directories": {
       "buildResources": "buildResources",
       "app": "./dist",
@@ -45,8 +45,15 @@
       "target": [
         "dmg",
         "zip"
-      ]
-    }
+      ],
+      "category": "public.app-category.developer-tools",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "buildResources/entitlements.mac.plist",
+      "entitlementsInherit": "buildResources/entitlements.mac.plist",
+      "identity": "Guangwei Yu (6MEW5K35LG)"
+    },
+    "afterSign": "scripts/notarize.js"
   },
   "dependencies": {
     "electron-log": "^5.3.1",
@@ -60,6 +67,8 @@
     "electron": "^34.3.0",
     "electron-builder": "25.1.8",
     "electron-icon-builder": "^2.0.1",
+    "electron-notarize": "^1.2.2",
+    "electron-updater": "^6.3.9",
     "npm-run-all": "^4.1.5"
   }
 }
