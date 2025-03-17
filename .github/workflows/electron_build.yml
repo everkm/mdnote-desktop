@@ -40,6 +40,7 @@ jobs:
         run: pnpm install
 
       - name: Import certificate
+        if: matrix.os == 'macos-latest'
         env:
           CERTIFICATE_P12: ${{ secrets.MAC_CERTIFICATE_P12 }}
           CERTIFICATE_PASSWORD: ${{ secrets.MAC_CERTIFICATE_P12_PWD }}
@@ -67,7 +68,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ github.ref_name }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
           echo "Running on macOS"

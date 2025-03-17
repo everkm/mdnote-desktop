@@ -15,7 +15,7 @@ exports.default = async function notarizing(context) {
     appBundleId: "com.everkm.note",
     appPath,
     appleId: process.env.APPLE_ID,
-    appleIdPassword: process.env.APPLE_ID_PASSWORD,
+    appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
     teamId: process.env.APPLE_TEAM_ID,
   });
 
