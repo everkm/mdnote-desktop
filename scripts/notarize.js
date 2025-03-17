@@ -1,4 +1,4 @@
-const { notarize } = require("electron-notarize");
+const { notarize } = require("@electron/notarize");
 
 exports.default = async function notarizing(context) {
   const { electronPlatformName, appOutDir } = context;
@@ -12,6 +12,7 @@ exports.default = async function notarizing(context) {
   console.log(`Notarizing ${appPath}`);
 
   await notarize({
+    tool: "notarytool",
     appBundleId: "com.everkm.note",
     appPath,
     appleId: process.env.APPLE_ID,

@@ -61,13 +61,13 @@
     "p-defer": "^4.0.1"
   },
   "devDependencies": {
+    "@electron/notarize": "^3.0.0",
     "cross-env": "^7.0.3",
     "cross-env-file": "^1.0.0",
     "dmg-license": "^1.0.11",
     "electron": "^34.3.0",
     "electron-builder": "25.1.8",
     "electron-icon-builder": "^2.0.1",
-    "electron-notarize": "^1.2.2",
     "electron-updater": "^6.3.9",
     "npm-run-all": "^4.1.5"
   }
