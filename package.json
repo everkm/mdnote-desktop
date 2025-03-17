@@ -51,9 +51,9 @@
       "gatekeeperAssess": false,
       "entitlements": "buildResources/entitlements.mac.plist",
       "entitlementsInherit": "buildResources/entitlements.mac.plist",
-      "identity": "Guangwei Yu (6MEW5K35LG)"
-    },
-    "afterSign": "scripts/notarize.js"
+      "identity": "Guangwei Yu (6MEW5K35LG)",
+      "notarize": true
+    }
   },
   "dependencies": {
     "electron-log": "^5.3.1",
