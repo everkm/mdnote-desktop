@@ -31,7 +31,7 @@
     },
     "extraResources": [
       {
-        "from": "resources/bin/${os}/${arch}/",
+        "from": "../../../be/mdnote-serve/out/electron_bin/${os}/${arch}/",
         "to": "bin",
         "filter": "**/*"
       }
