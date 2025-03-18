@@ -25,7 +25,7 @@ try {
         ) {
           return {
             ...resource,
-            from: "resource/bin/${os}/${arch}/",
+            from: "resources/bin/${os}/${arch}/",
           };
         }
         return resource;

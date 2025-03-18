@@ -31,7 +31,7 @@
     },
     "extraResources": [
       {
-        "from": "resource/bin/${os}/${arch}/",
+        "from": "resources/bin/${os}/${arch}/",
         "to": "bin",
         "filter": "**/*"
       }
